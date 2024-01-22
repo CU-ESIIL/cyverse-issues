@@ -12,6 +12,9 @@
 
 ######################################################
 #THESE LINES OF CODE WORK LOCALLY, BUT NOT ON CYVERSE
+#They are trying to open data via vsizip
+#Error on cyverse documented in comment at end
+#Note that there is also an example provided that works both locally and on CyVerse
 
 require(glue)
 require(sf)
@@ -36,3 +39,15 @@ DEM_continuous_CONUS_15s <- glue::glue(
   "https://data.hydrosheds.org/file/hydrosheds-v1-dem/hyd_na_dem_15s.zip", #copied link to download location
   "/hyd_na_dem_15s.tif") |> #path inside zip file
   terra::rast()
+
+################################
+# Error: Cannot open "/vsizip/vsicurl/https://gaftp.epa.gov/EPADataCommons/ORD/Ecoregions/us/us_eco_l3.zip/us_eco_l3.shp"; The file doesn't seem to exist.
+# Traceback:
+# 
+# 1. sf::st_read(glue::glue("/vsizip/vsicurl/", "https://gaftp.epa.gov/EPADataCommons/ORD/Ecoregions/us/us_eco_l3.zip", 
+#  .     "/us_eco_l3.shp"))
+# 2. st_read.character(glue::glue("/vsizip/vsicurl/", "https://gaftp.epa.gov/EPADataCommons/ORD/Ecoregions/us/us_eco_l3.zip", 
+#  .     "/us_eco_l3.shp"))
+# 3. CPL_read_ogr(dsn, layer, query, as.character(options), quiet, 
+#  .     type, fid_column_name, drivers, wkt_filter, promote_to_multi, 
+#  .     int64_as_string, dsn_exists, dsn_isdb, getOption("width"))
